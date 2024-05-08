@@ -5,10 +5,11 @@
  <?= Utilities::alert('msj_missed()'); ?>
 <?php elseif (isset($_SESSION['register']) && $_SESSION['register'] == 'vacio'): ?>
  <?= Utilities::alert('msj_empty()'); ?>
-<?php endif; ?>
+<?php  endif; ?>
 <?php
 if (isset($_SESSION['buff'])):
 $data = $_SESSION['buff'];
+
 endif;
 ?>
  <div class="card">
@@ -17,6 +18,7 @@ endif;
        
 
     <?php if (isset($edit) && isset($proct) && is_object($proct)): ?>
+        
     <h1 class="text-center">EDITAR  PRODUCTOS</h1>
     <?php $action_url = base_url . "product/save&id=" . $proct->id; ?>
     <?php

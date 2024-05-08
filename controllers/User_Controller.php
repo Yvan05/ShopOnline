@@ -2,14 +2,87 @@
 
 require_once 'models/user.php';
 
-class user_controller {
+class user_controller
+{
 
-    public function register() {
+    public function register()
+    {
         //renderizar vista
         require_once 'views/users/register_user.php';
     }
+    public function view()
+    {
+        Utilities::isIdentity();
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $usuario = new user();
+            $usuario->setId($id);
+            $user = $usuario->getOne();
 
-    public function save() {
+            require_once 'views/users/gestion_user.php';
+        } else {
+            //renderizar vista
+            require_once 'views/users/gestion_user.php';
+        }
+
+
+    }
+    public function gestion()
+    {
+        Utilities::isAdmin();
+        $user = new user();
+        $usuarios = $user->getALL();
+        ///renderizar la vista de la paguina
+        require_once 'views/users/admin_user.php';
+    }
+    public function edit()
+    {
+        Utilities::isIdentity();
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $edit = true;
+            $usuario = new user();
+            $usuario->setId($id);
+            $user = $usuario->getOne();
+
+            if ($user) {
+                require_once 'views/users/register_user.php';
+            } else {
+                show_error();
+            }
+
+
+
+        } else {
+            header('Location:' . base_url . 'user/view');
+            ob_end_flush();
+        }
+
+    }
+    public function delete()
+    {
+        Utilities::isAdmin();
+
+        if (isset($_GET['id'])) {
+            $id = isset($_GET['id']) ? $_GET['id'] : false;
+            $usuario = new user();
+            $usuario->setId($id);
+            $delete = $usuario->delete();
+            if ($usuario) {
+                $alert = $_SESSION['delete'] = "success";
+            } else {
+                //fallido al registrar
+                $alert = $_SESSION['delete'] = "failed";
+            }
+        } else {
+            $alert = $_SESSION['delete'] = "failed";
+        }
+        header('Location:' . base_url . 'user/gestion');
+        ob_end_flush();
+    }
+
+    public function save()
+    {
         //comprobando los datos que nos llegan por POST
         if (isset($_POST)) {
 
@@ -22,8 +95,8 @@ class user_controller {
             $img = isset($_POST['img']) ? $_POST['img'] : false;
             ///array de errores
             $errores = array();
-            
-//validar los datos antes de guardarlos en la base de datos
+
+            //validar los datos antes de guardarlos en la base de datos
 //VALIDANDO CAMPO NOMBRE
             if (!empty($name) && !is_numeric($name) && !preg_match("/[0-9]/", $name)) {
                 $name_validate = true;
@@ -31,28 +104,31 @@ class user_controller {
                 $name_validate = false;
                 $errores['name'] = 'verifique el nombre';
             }
-//VALIDANDO CAMPO APELLIDO
+            //VALIDANDO CAMPO APELLIDO
             if (!empty($lastname) && !is_numeric($lastname) && !preg_match("/[0-9]/", $lastname)) {
                 $lastname_validate = true;
             } else {
                 $lastname_validate = false;
                 $errores['lastname'] = 'verifique el apellido';
             }
-//VALIDANDO CAMPO EMAIL
-            if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $email_validate = true;
-            } else {
-                $email_validate = false;
-                $errores['email'] = 'verifique el email';
+            if (!isset($_GET['id'])) {
+                //VALIDANDO CAMPO EMAIL
+                if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $email_validate = true;
+                } else {
+                    $email_validate = false;
+                    $errores['email'] = 'verifique el email';
+                }
+
+                //VALIDANDO CAMPO CONTRASEÑA
+                if (!empty($password)) {
+                    $passwd_validate = true;
+                } else {
+                    $passwd_validate = false;
+                    $errores['passwd'] = 'verifique el contraseña   ';
+                }
             }
-//VALIDANDO CAMPO CONTRASEÑA
-            if (!empty($password)) {
-                $passwd_validate = true;
-            } else {
-                $passwd_validate = false;
-                $errores['passwd'] = 'verifique el contraseña   ';
-            }
-//VALIDANDO CAMPO ROL
+            //VALIDANDO CAMPO ROL
             if (!empty($rol) && !is_numeric($rol) && !preg_match("/[0-9]/", $rol)) {
                 $rol_validate = true;
             } else {
@@ -80,43 +156,88 @@ class user_controller {
                 $file = $_FILES['img'];
                 $filename = $file['name'];
                 $minetype = $file['type'];
-                if ($minetype == "image/jpg" || $minetype == "image/jpeg" || $minetype == "image/png" || $minetype == "image/gif")
-                {
+                if ($minetype == "image/jpg" || $minetype == "image/jpeg" || $minetype == "image/png" || $minetype == "image/gif") {
                     if (!is_dir('profile/img')) {
-                        mkdir('profile/img',0777,true);
+                        mkdir('profile/img', 0777, true);
                     }
-                  
-                   move_uploaded_file($file['tmp_name'],'profile/img/'.$filename);
-                
+
+                    move_uploaded_file($file['tmp_name'], 'profile/img/' . $filename);
+
                     $user->setImagen($filename);
                 }
-                $save = $user->save();
-                if ($save) {
-                    $alert = $_SESSION['register'] = "success";
+
+                if (isset($_GET['id'])) {
+
+                    $id = $_GET['id'];
+                    $user->setId($id);
+                    $save = $user->edit();
+                    if ($save) {
+
+                        $alert = $_SESSION['register'] = "success";
+                        ///actualizar datos de session
+
+                        if ($_SESSION['identity']->id == $id) {
+                            Utilities::updateSession();
+                            if ($_SESSION['identity']->rol == 'user') {
+                                Utilities::deleteSession('admin');
+        
+                            }
+                        }
+
+                    } else {
+                        $alert = $_SESSION['register'] = "failed";
+                        $_SESSION['buff'] = $_POST;
+                        $form = $_SESSION['error'] = $errores;
+                    }
+
+
+                    
+                    header('Location:' . base_url . 'user/edit&id=' . $id);
+
                 } else {
-                    $alert = $_SESSION['register'] = "failed";
-                    //mantener los datos del formulario
-                    //$_SESSION['buff'] = $_POST;
+                    $save = $user->save();
+                    if ($save) {
+                        $alert = $_SESSION['register'] = "success";
+
+                    } else {
+                        $alert = $_SESSION['register'] = "failed";
+                        $_SESSION['buff'] = $_POST;
+                        $form = $_SESSION['error'] = $errores;
+
+                    }
+                    header('Location:' . base_url . 'user/register');
                 }
+
+                //$save = $user->save();
+
             } else {
                 $alert = $_SESSION['register'] = "vacio";
                 $_SESSION['buff'] = $_POST;
                 $form = $_SESSION['error'] = $errores;
-                //mantener los datos del formulario
-                //header('Location:' . base_url . 'user/register');
+                if (isset($_GET['id'])) {
+                    header('Location:' . base_url . 'user/edit&id=' . $_GET['id']);
+                } else {
+                    header('Location:' . base_url . 'user/register');
+                }
             }
         } else {
             $alert = $_SESSION['register'] = "failed";
-            //mantener los datos del formulario
-            //$_SESSION['buff'] = $_POST;
+            if (isset($_GET['id'])) {
+                header('Location:' . base_url . 'user/edit&id=' . $_GET['id']);
+            } else {
+                header('Location:' . base_url . 'user/register');
+            }
+
+
         }
-        header('Location:' . base_url . 'user/register');
-        // header('Location:'.base_url.'user/register?alert="'.$alert.'"');
+
+
         ob_end_flush();
-        //echo '<script>window.location="'.base_url.'user/register"</script>';
+
     }
     ///METODO PARA IDENTIFICACION DEL USUARIO LOGIN
-    public function login() {
+    public function login()
+    {
         //comprobando los datos que nos llegan por POST
         if (isset($_POST)) {
 
@@ -128,7 +249,7 @@ class user_controller {
                 $email_validate = false;
                 $errores['email'] = 'verifique el email';
             }
-//VALIDANDO CAMPO CONTRASEÑA esta validacion se va hacer desde el fron con JS
+            //VALIDANDO CAMPO CONTRASEÑA esta validacion se va hacer desde el fron con JS
             if (!empty($_POST['Lpasswd'])) {
                 $passwd_validate = true;
             } else {
@@ -146,7 +267,7 @@ class user_controller {
                 //crear una session para guardas sus datos
                 if ($identity && is_object($identity)) {
                     $_SESSION['identity'] = $identity;
-                    if ($identity->rol == 'administrador') {
+                    if ($identity->rol == 'admin') {
                         $_SESSION['admin'] = true;
                     }
                 } else {
@@ -157,20 +278,21 @@ class user_controller {
                 $_SESSION['errores'] = $errores;
             }
         }
-        
-      
-        $size= strlen($_SESSION['url']);
-        $ruta=substr($_SESSION['url'],25,$size);
-  
+
+
+        $size = strlen($_SESSION['url']);
+        $ruta = substr($_SESSION['url'], 25, $size);
+
         Utilities::deleteSession('url');
-        
- 
-        header("Location:".base_url.$ruta);
-        
+
+
+        header("Location:" . base_url . $ruta);
+
         ob_end_flush();
-       Utilities::deleteSession('url');
+        Utilities::deleteSession('url');
     }
-    public function logout() {
+    public function logout()
+    {
         if (isset($_SESSION['identity'])) {
             unset($_SESSION['identity']);
         }

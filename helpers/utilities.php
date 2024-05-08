@@ -40,7 +40,6 @@ public static function isAdmin() {
     } else {
         return true;
     }
-    
 }
 public static function isIdentity() {
     if(!isset($_SESSION['identity'])){
@@ -64,6 +63,19 @@ public static function shownameCategory($id) {
     $categorys=$category->getOne();
     return $categorys;
     
+}
+public static function updateSession(){
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+        $user = new user();
+        $user->setId($id);
+        $identity = $user->getOne();
+        if ($identity && is_object($identity)) {
+            $_SESSION['identity'] = $identity;
+        }else{
+            return true;
+        }
+    }
 }
 public static function mostrarError2($errores,$campo){
     $alert=' ';

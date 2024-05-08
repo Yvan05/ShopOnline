@@ -4,22 +4,25 @@ require_once 'models/product.php';
 
 //require_once 'models/category.php';
 
-class product_Controller {
+class product_Controller
+{
 
-    public function index() {
+    public function index()
+    {
         //sacando productos aleatorios de la base de datos para
         //mostrarlos en nuestra pagina principal index de productos
         //variaddos
-        $product= new product();
-       $productos= $product->getRadom(6);
-       
-       ///var_dump($productos->fetch_object());//registro aleatorio
-      // var_dump($productos->num_rows);//numero de registros en la base tabla de productos
+        $product = new product();
+        $productos = $product->getRadom(6);
+
+        ///var_dump($productos->fetch_object());//registro aleatorio
+        // var_dump($productos->num_rows);//numero de registros en la base tabla de productos
         //renderizar vista
         require_once 'views/product/destacados.php';
     }
 
-    public function gestion() {
+    public function gestion()
+    {
         //renderizar vista
         Utilities::isAdmin();
         $product = new product();
@@ -27,15 +30,15 @@ class product_Controller {
         require_once 'views/product/gestion.php';
     }
 
-    public function crear() {
+    public function crear()
+    {
         Utilities::isAdmin();
         //renderizar vista
-        //$category = new category();
-        // $categorys = $category->getAll();
         require_once 'views/product/crear.php';
     }
 
-    public function delete() {
+    public function delete()
+    {
         Utilities::isAdmin();
 
         if (isset($_GET['id'])) {
@@ -55,20 +58,22 @@ class product_Controller {
         header('Location:' . base_url . 'product/gestion');
         ob_end_flush();
     }
-    public function ver() {
+    public function ver()
+    {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $edit = true;
             $producto = new product();
             $producto->setId($id);
             $proct = $producto->getOne();
-           
 
-        } 
-         require_once 'views/product/ver.php'; 
+
+        }
+        require_once 'views/product/ver.php';
     }
 
-    public function edit() {
+    public function edit()
+    {
         Utilities::isAdmin();
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
@@ -76,25 +81,25 @@ class product_Controller {
             $producto = new product();
             $producto->setId($id);
             $proct = $producto->getOne();
-            if($proct){
-              require_once 'views/product/crear.php';  
-            }else{
+            if ($proct) {
+                require_once 'views/product/crear.php';
+            } else {
                 show_error();
             }
-                
 
-           // require_once 'views/product/crear.php';
+
+
         } else {
             header('Location:' . base_url . 'product/gestion');
             ob_end_flush();
         }
     }
 
-    public function save() {
+    public function save()
+    {
         Utilities::isAdmin();
         //verificar los datos recibidos por POST
         if (isset($_POST)) {
-
             $name = isset($_POST['name']) ? $_POST['name'] : false;
             $cat = isset($_POST['cate']) ? $_POST['cate'] : false;
             $precio = isset($_POST['precio']) ? $_POST['precio'] : false;
@@ -124,20 +129,20 @@ class product_Controller {
                 $errores['desc'] = 'verifique el descripcion';
             }
             //VALIDANDO CAMPO OFERTA
-            if (preg_match("/[0-9]/", $ofert)&& strlen($ofert)<=2&&!empty($ofert)) {
+            if (preg_match("/[0-9]/", $ofert) && strlen($ofert) <= 2 && !empty($ofert)) {
                 $ofert_validate = true;
             } else {
                 $ofert_validate = false;
                 $errores['ofer'] = 'verifique el oferta';
             }
-//VALIDANDO CAMPO CATEGORIA
+            //VALIDANDO CAMPO CATEGORIA
             if (!empty($cat)) {
                 $cat_validate = true;
             } else {
                 $cat_validate = false;
                 $errores['cate'] = 'verifique el categoria';
             }
-//VALIDANDO CAMPO FECHA
+            //VALIDANDO CAMPO FECHA
             $fecha_act = date('Y-m-d');
             if (!empty($date) && $date <= $fecha_act) {
                 $date_validate = true;
@@ -145,14 +150,14 @@ class product_Controller {
                 $date_validate = false;
                 $errores['date'] = 'verifique el fecha';
             }
-//VALIDANDO CAMPO STOCK
+            //VALIDANDO CAMPO STOCK
             if (!empty($stock) && is_numeric($stock) && $stock > 0) {
                 $stock_validate = true;
             } else {
                 $stock_validate = false;
                 $errores['stock'] = 'verifique el stock   ';
             }
-//VALIDANDO CAMPO PRECIO
+            //VALIDANDO CAMPO PRECIO
             if (!empty($precio) && !preg_match("/[a-z]/", $precio)) {
                 $precio_validate = true;
             } else {
@@ -196,7 +201,7 @@ class product_Controller {
                     $id = $_GET['id'];
                     $product->setId($id);
                     $save = $product->edit();
-                   
+
                 } else {
                     $save = $product->save();
                 }
@@ -213,6 +218,7 @@ class product_Controller {
                 //regresamos una alerta cuando hay errores en el formularui de registro
                 $alert = $_SESSION['register'] = "vacio";
                 $_SESSION['buff'] = $_POST;
+                
                 $form = $_SESSION['error'] = $errores;
             }
         } else {
@@ -230,12 +236,13 @@ class product_Controller {
             ob_end_flush();
         }
     }
-     public function buscador() {
-        if (isset($_POST['busca'])&&!empty($_POST['busca'])) {
+    public function buscador()
+    {
+        if (isset($_POST['busca']) && !empty($_POST['busca'])) {
             $busca = isset($_POST['busca']) ? $_POST['busca'] : false;
-            
+
             $errores = array();
-            
+
             if (!empty($busca)) {
                 $busca_validate = true;
             } else {
@@ -243,22 +250,22 @@ class product_Controller {
                 $errores['busca'] = 'Ingresa para buscar';
             }
             if (count($errores) == 0) {
-             
-   
-                $producto=new product();
+
+
+                $producto = new product();
                 $producto->setNombre($busca);
-                $productos=$producto->buscador();
-               
-            }else{
-                 $search = $_SESSION['error'] = $errores;
-                
+                $productos = $producto->buscador();
+
+            } else {
+                $search = $_SESSION['error'] = $errores;
+
             }
-             require_once 'views/product/destacados.php'; 
-        }else{
-         header('Location:' .base_url);
+            require_once 'views/product/destacados.php';
+        } else {
+            header('Location:' . base_url);
         }
-    
-     }
+
+    }
 }
 
 ?>

@@ -1,7 +1,11 @@
 <?php
 
 function autoloadclass($classname){
-    include 'controllers/'.$classname.'.php';
+    if(file_exists('controllers/' . $classname . '.php'))
+    {
+    include 'controllers/'. $classname . '.php';
+    
+}
 }
 
 spl_autoload_register('autoloadclass');
