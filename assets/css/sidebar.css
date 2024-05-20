@@ -64,6 +64,7 @@ body {
 
 .page-wrapper {
   height: 100vh;
+  
 }
 
 .page-wrapper .theme {
@@ -82,11 +83,12 @@ body {
 
 .page-wrapper.toggled .sidebar-wrapper {
   left: 0px;
+  
 }
 
 @media screen and (min-width: 768px) {
   .page-wrapper.toggled .page-content {
-    padding-left: 300px;
+    padding-left: 190px;
   }
 }
 /*----------------show sidebar button----------------*/
@@ -104,7 +106,7 @@ body {
 /*----------------sidebar-wrapper----------------*/
 
 .sidebar-wrapper {
-  width: 260px;
+  width: 190px;
   height: 100%;
   max-height: 100%;
   position: fixed;

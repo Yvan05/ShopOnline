@@ -78,13 +78,15 @@
                     </div>
                 </div>
 
-                <!-- sidebar-search  -->
+                <!-- ssidebar -->
                 <div class="sidebar-menu">
                     <ul>
-                        <li class="header-menu">
+                    
+                   
+                        <?php if (!isset($_SESSION['identity'])): ?>
+                            <li class="header-menu">
                             <span>General</span>
                         </li>
-                        <?php if (!isset($_SESSION['identity'])): ?>
                             <li class="sidebar">
                                 <a href="#" data-toggle="modal" data-target="#exampleModal">
                                     <i class="fa fa-user"></i>
@@ -93,10 +95,13 @@
                             </li>
                             
                         <?php else: ?>
+                            <li class="header-menu">
+                            <span>Settings</span>
+                            </li> 
                             <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-cog fa-2x"></i>
-                                <span>Configuracion</span>
+                                <span>Usuario</span>
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -111,6 +116,10 @@
                                 </ul>
                             </div>
                         </li>
+                        <li class="header-menu">
+                            <span>General</span>
+                        </li>
+                        
                             <li class="sidebar">
                                 <a href="<?= base_url ?>order/myorder">
                                     <i class="fa fa-money"></i>

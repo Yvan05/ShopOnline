@@ -110,6 +110,20 @@ class user
 
     public function save()
     {
+        // Preparo la sentencia SQL
+$query ="SELECT *FROM usuarios WHERE email='{$this->getEmail()}';";
+$resultado=$this->db->query($query);
+$result = false;
+
+if (mysqli_num_rows($resultado)>0)
+{
+
+    $result = false;
+    
+} else {
+
+    
+
         $sql = "INSERT INTO usuarios VALUES("
             . "NULL,"
             . "'{$this->getNombre()}',"
@@ -121,24 +135,16 @@ class user
         $save = $this->db->query($sql);
         $result = false;
         if ($save) {
-
             $result = true;
-        } else {
-            $result = false;
-            /* para ver el resultado de la query 
-            echo mysqli_error($this->db);
-                     die();*/
         }
-
-        return $result;
+    }
+       return $result;
 
     }
     public function delete()
     {
         $query = " DELETE FROM usuarios WHERE id={$this->id}";
         $usuario = $this->db->query($query);
-        //bandera
-        $result = false;
         //comprobamos que se inserta
         if ($usuario) {
 
