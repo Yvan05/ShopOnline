@@ -1,12 +1,9 @@
-<!---->
 <?php if (isset($_SESSION['car']) && count($_SESSION['car']) >= 1): ?>
     <?php Utilities::rutaActual(); ?>
-   <div class="container clearfix">
+    <div class="container clearfix">
 
         <!-- Shopping cart table -->
-        <div class="row">
-            <div class="col-lg-12">      
-                <div class="card">
+        <div class="card">
 
 
             <div class="card-header">
@@ -22,7 +19,7 @@
                                
                                 <tr>
                                     <!-- Set columns width -->
-                                    <th class="text-center py-3 px-4" style="min-width: 230px;">Product Name &amp; Details</th>
+                                    <th class="text-center py-3 px-4" style="min-width: 250px;">Product Name &amp; Details</th>
                                     <th class="text-right py-3 px-4" style="width: 100px;">Price</th>
                                     <th class="text-center py-3 px-4" style="width: 150px;">Quantity</th>
                                     <th class="text-right py-3 px-4" style="width: 100px;">Total</th>
@@ -94,7 +91,7 @@
                         </div>
                         <div class="text-right mt-4 mr-2">
                             <label class="text-muted font-weight-normal m-0">Total price</label>
-                                <div class="text-large"><strong>$<?= $stats['total'] ?></strong></div>
+                            <div class="text-large"><strong>$<?= $stats['total'] ?></strong></div>
                         </div>
                     </div>
                     
@@ -125,10 +122,6 @@
   </div>
 
         </div>
-            </div>
-     
-        </div>
-  
     </div>
 <?php Utilities::deleteSession('error');?>
 <?php else: ?>
@@ -144,7 +137,9 @@
             </div>
             <div class="card-body">
 
-              
+                <div class="alert alert-secondary text-center">
+                    <h1>Tu carrito de compras está vacío.</h1>
+                </div>
 
                 <!-- / Shopping cart table -->
 

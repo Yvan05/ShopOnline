@@ -103,6 +103,76 @@
     background: #f7a754;
 
 }
+.edit{
+
+    text-decoration: none;
+    width: 40px;
+    height: 40px;
+    margin-left:10px; 
+    border-radius: 50%;
+    color: #54f76a;
+    background: #fdeddc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.5s all;
+    font-size: 15px;
+
+}
+.edit:hover{
+
+    color: #fff;
+    background: #54f76a;
+    text-decoration: none;
+}
+.delet{
+
+
+    width: 40px;
+    height: 40px;
+   
+    margin-left:10px; 
+    border-radius: 50%;
+    color: #f75454;
+    background: #fdeddc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.5s all;
+    font-size: 15px;
+
+}
+.delet:hover{
+
+    color: #fff;
+    background: #f75454;
+}
+.view{
+
+    text-decoration: none;
+    width: 40px;
+    height: 40px;
+    margin-left:10px; 
+    border-radius: 50%;
+    color: #54a8f7;
+    background: #fdeddc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.5s all;
+    font-size: 15px;
+
+}
+.view:hover{
+
+    text-decoration: none;
+    color: #fff;
+    background: #54a8f7;
+}
+
 
 
 

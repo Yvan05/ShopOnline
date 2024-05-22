@@ -27,15 +27,22 @@
                       
                  
 
-                        <tr>
+                        <tr class="text-center">
                             <td><?=$ord->id?></td>
                             <td> <?=$ord->coste?>$</td>
                             <td><?=$ord->fecha?></td>
                             <td><?= Utilities::status($ord->status)?></td>
                             <td>
-                                <a  href="#modaldelete_produc" id="btndelete" data-toggle="modal"   type="button" class="btn btn-danger"   data-toggle="tooltip" title="Eliminar"> <i class="fa fa-trash" aria-hidden="true"></i> </a>
-                                 <a href="#modal_ord_edit<?=$ord->id;?>"  data-toggle="modal" type="button" class="btn btn-info"  data-toggle="tooltip" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                               <a href="<?= base_url ?>order/confirmado&id=<?= $ord->id; ?>"   type="button" class="btn btn-success"  data-toggle="tooltip" title="Ver"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <div class="row">
+                                        <span  href="#modaldelete_produc" id="btndelete" data-toggle="modal" class="delet"  type="button" data-toggle="tooltip" title="Eliminar"> <i
+                                                class="fa fa-trash" aria-hidden="true"></i> </span>
+                                        <span href="#modal_ord_edit<?=$ord->id;?>" data-toggle="modal"  class="edit" type="button"
+                                           title="Editar"><i class="fa fa-pencil-square-o"
+                                                aria-hidden="true"></i></span>
+                                        <a href="<?= base_url ?>order/confirmado&id=<?= $ord->id; ?>"   type="button" class="view" title="Ver">
+                                            <i class="fa fa-eye" aria-hidden="true"></i></a>
+                                    </div>
+                                
                             </td>
                         </tr>  
                          <?php include 'views/modales/modal_order_edit.php'; ?>

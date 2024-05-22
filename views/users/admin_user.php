@@ -18,7 +18,7 @@
                 
                 <table id="table_view" class="table table-striped table-bordered">
                     <thead>
-                        <tr>
+                        <tr >
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Apellidos</th>
@@ -31,26 +31,28 @@
                     </thead>
                     <tbody>
                         <?php while ($user = $usuarios->fetch_object()): ?>
-                            <tr>
+                            <tr class="text-center" >
                                 <td><?= $user->id; ?></td>
-                                <td><?= $user->nombre; ?> </td>
+                                <td ><?= $user->nombre; ?> </td>
                                 <td><?= $user->apellidos; ?></td>
                                 <td><?= $user->email; ?></td>
                                 <td><?= $user->rol; ?> </td>
                                 <td><?= $user->imagen; ?> </td>
                                 <td>
-                                    <a href="#modaldelete_user<?= $user->id; ?>" id="btndelete" data-toggle="modal"
-                                        type="button" class="btn btn-danger" data-toggle="tooltip" title="Eliminar"> <i
-                                            class="fa fa-trash" aria-hidden="true"></i> </a>
-                                    <a href="<?= base_url ?>user/edit&id=<?=$user->id;?>" type="button" class="btn btn-info"
+                                    <div class="row text-center">
+                                    <span href="#modaldelete_user<?= $user->id; ?>" class="delet" id="btndelete" data-toggle="modal"
+                                        type="button"  data-toggle="tooltip" title="Eliminar"> <i
+                                            class="fa fa-trash" aria-hidden="true"></i> </span>
+                                    <a href="<?= base_url ?>user/edit&id=<?=$user->id;?>" class="edit" type="button" 
                                         data-toggle="tooltip" title="Editar"><i class="fa fa-pencil-square-o"
                                             aria-hidden="true"></i></a>
-                                    <a href="<?= base_url ?>user/view&id=<?= $user->id; ?>" type="button" class="btn btn-success" title="Ver">
+                                    <a href="<?= base_url ?>user/view&id=<?= $user->id; ?>" class="view" type="button" title="Ver">
                                         <i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        </div>
                                 </td>
 
                                 <?php
-                                // include 'views/modales/modal_eliminarUser.php';
+                               
                                 include 'views/modales/modal_eliminarUser.php';
                                 ?>
                             <?php endwhile; ?>

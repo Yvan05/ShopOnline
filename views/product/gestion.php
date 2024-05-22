@@ -1,7 +1,7 @@
 <?php if (isset($_SESSION['delete']) && $_SESSION['delete'] == 'success'): ?>
-     <?= Utilities::alert('msj_succes()'); ?>
+    <?= Utilities::alert('msj_succes()'); ?>
 <?php elseif (isset($_SESSION['delete']) && $_SESSION['delete'] == 'failed'): ?>
-     <?= Utilities::alert('msj_missed()'); ?>
+    <?= Utilities::alert('msj_missed()'); ?>
 <?php endif; ?>
 <div class="container clearfix">
 
@@ -25,7 +25,7 @@
                             <th>Nombre</th>
                             <th hidden="">Descripcion</th>
                             <th hidden="">Oferta</th>
-                            <th>Precio</th>             
+                            <th>Precio</th>
                             <th>Stock</th>
                             <th>Fecha</th>
                             <th hidden="">Imagen</th>
@@ -35,7 +35,7 @@
                     </thead>
                     <tbody>
                         <?php while ($proc = $productos->fetch_object()): ?>
-                            <tr>
+                            <tr class="text-center">
                                 <td><?= $proc->id; ?></td>
                                 <td hidden=""><?= $proc->categoria_id; ?></td>
                                 <td><?= $proc->nombre; ?> </td>
@@ -46,28 +46,40 @@
                                 <td><?= $proc->fecha; ?></td>
                                 <td hidden=""><?= $proc->imagen; ?> </td>
                                 <td>
-                                    <a  href="#modaldelete_produc<?= $proc->id; ?>" id="btndelete" data-toggle="modal"   type="button" class="btn btn-danger"   data-toggle="tooltip" title="Eliminar"> <i class="fa fa-trash" aria-hidden="true"></i> </a>
-                                    <a href="<?= base_url ?>product/edit&id=<?= $proc->id; ?>" type="button" class="btn btn-info"  data-toggle="tooltip" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    <button href="#modal_detalle<?= $proc->id; ?>"  data-toggle="modal" type="button" class="btn btn-success"  data-toggle="tooltip" title="Ver"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                    <div class="row">
+                                        <span href="#modaldelete_produc<?= $proc->id; ?>" class="delet" id="btndelete"
+                                            data-toggle="modal" type="button" data-toggle="tooltip" title="Eliminar"> <i
+                                                class="fa fa-trash" aria-hidden="true"></i> </span>
+                                        <a href="<?= base_url ?>product/edit&id=<?= $proc->id; ?>" class="edit" type="button"
+                                           title="Editar"><i class="fa fa-pencil-square-o"
+                                                aria-hidden="true"></i></a>
+                                        <span href="#modal_detalle<?= $proc->id; ?>"  class="view"
+                                        data-toggle="modal" type="button" title="Ver">
+                                            <i class="fa fa-eye" aria-hidden="true"></i></span>
+                                    </div>
+
+
+
+
                                 </td>
                                 <?php include 'views/modales/modal_eliminarProduct.php'; ?>
                                 <?php require 'views/modales/modal_view_product.php'; ?>
 
                             <?php endwhile; ?>
                     </tbody>
-                   <tfoot>
-                    <tr>
-                        <th>ID</th>
-                        <th hidden="">IDCAT</th>
-                        <th>Nombre</th>
-                        <th hidden="">Descripcion</th>
-                        <th hidden="">Oferta</th>
-                        <th>Precio</th>             
-                        <th >Stock</th>
-                        <th>Fecha</th>
-                        <th hidden="">Imagen</th>
-                        <th>Acciones</th>
-                    </tr>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th hidden="">IDCAT</th>
+                            <th>Nombre</th>
+                            <th hidden="">Descripcion</th>
+                            <th hidden="">Oferta</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Fecha</th>
+                            <th hidden="">Imagen</th>
+                            <th>Acciones</th>
+                        </tr>
                     </tfoot>
                 </table>
 
@@ -76,6 +88,5 @@
                 <?php Utilities::deleteSession('error'); ?>
             </div>
         </div>
-           </div>
-        </div>
-
+    </div>
+</div>

@@ -37,10 +37,17 @@
                                 <td><?= $cat->id; ?> </td>
                                 <td><?= $cat->nombre; ?> </td>
                                 <td>
+                                <div class="row">
+                                        <span href="#modaldelete_cat<?= $cat->id; ?>" class="delet"
+                                            data-toggle="modal" type="button" data-toggle="tooltip" title="Eliminar"><i
+                                                class="fa fa-trash" aria-hidden="true"></i> </span>
+                                        <span href="#modal_cat_edit<?= $cat->id; ?>" class="edit"  data-toggle="modal" type="button"
+                                            data-toggle="tooltip" title="Editar"><i class="fa fa-pencil-square-o"
+                                                aria-hidden="true"></i></span>
+                                        
+                                    </div>
 
-                                    <a href="#modaldelete_cat<?= $cat->id; ?>" data-toggle="modal" type="button" class="btn btn-danger "   data-toggle="tooltip" title="Eliminar"> <i class="fa fa-trash" aria-hidden="true"></i> </a>
-                                    <a href="#modal_cat_edit<?= $cat->id; ?>"  data-toggle="modal" type="button" class="btn btn-info"  data-toggle="tooltip" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-
+                                   
 
                                 </td>
 
