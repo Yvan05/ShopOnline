@@ -143,9 +143,15 @@ if (mysqli_num_rows($resultado)>0)
     }
     public function delete()
     {
-        $query = " DELETE FROM usuarios WHERE id={$this->id}";
+        
+        if($this->id==$_SESSION['identity']->id){
+            $result = false; 
+            return $result;
+        }else{
+
+      
+        $query = "DELETE FROM usuarios WHERE id={$this->id}";
         $usuario = $this->db->query($query);
-        //comprobamos que se inserta
         if ($usuario) {
 
             $result = true;
@@ -154,8 +160,9 @@ if (mysqli_num_rows($resultado)>0)
             //echo mysqli_error($this->db);
             //  die();
         }
-
-        return $result;
+    }
+    return $result;
+       
 
 
     }

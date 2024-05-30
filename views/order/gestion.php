@@ -1,3 +1,8 @@
+<?php if (isset($_SESSION['delete']) && $_SESSION['delete'] == 'success'): ?>
+    <?= Utilities::alert('msj_succes()'); ?>
+<?php elseif (isset($_SESSION['delete']) && $_SESSION['delete'] == 'failed'): ?>
+    <?= Utilities::alert('msj_deleteorder()'); ?>
+<?php endif; ?>
 <div class="container clearfix">
 
     <!-- Shopping cart table -->
@@ -23,10 +28,10 @@
                     </tr>
                 </thead>
                 <tbody>
+                
                   <?php while($ord=$orders->fetch_object()):?>
                       
-                 
-
+        
                         <tr class="text-center">
                             <td><?=$ord->id?></td>
                             <td> <?=$ord->coste?>$</td>
@@ -34,7 +39,7 @@
                             <td><?= Utilities::status($ord->status)?></td>
                             <td>
                             <div class="row">
-                                        <span  href="#modaldelete_produc" id="btndelete" data-toggle="modal" class="delet"  type="button" data-toggle="tooltip" title="Eliminar"> <i
+                                        <span  href="#modaldelete_order<?= $ord->id; ?>" id="btndelete" data-toggle="modal" class="delet"  type="button" data-toggle="tooltip" title="Eliminar"> <i
                                                 class="fa fa-trash" aria-hidden="true"></i> </span>
                                         <span href="#modal_ord_edit<?=$ord->id;?>" data-toggle="modal"  class="edit" type="button"
                                            title="Editar"><i class="fa fa-pencil-square-o"
@@ -45,6 +50,8 @@
                                 
                             </td>
                         </tr>  
+                        <?php include 'views/modales/modal_eliminarorder.php';?>           
+             
                          <?php include 'views/modales/modal_order_edit.php'; ?>
                          <?php endwhile;?>
 
@@ -62,6 +69,8 @@
             </table>
             
             <?php Utilities::deleteSession('save'); ?>
+            <?php Utilities::deleteSession('delete'); ?>
+            
         </div>
     </div>
     <br>

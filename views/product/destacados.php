@@ -56,7 +56,7 @@
                             <div class="d-flex flex-row">
 
                                 
-                                <span class="wishlist" href="<?= base_url ?>car/add&id=<?= $proc->id ?>&añadir"><i class="fa fa-shopping-cart"></i></span>
+                                <a class="wishlist" href="<?= base_url ?>car/add&id=<?= $proc->id ?>&añadir"><i class="fa fa-shopping-cart"></i></a>
                                   <?=isset($_SESSION['error'])? Utilities::mostraralert($_SESSION['error']['stockup']): '';?>
                             </div>
                         </div>

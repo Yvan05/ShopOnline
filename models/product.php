@@ -195,11 +195,10 @@ class product
         }
 
         return $result;
-
     }
     public function edit()
     {
-        //hacemos la consulta
+        //hacemos la consultav
         $sql = "UPDATE  productos SET nombre='{$this->getNombre()}',"
             . "categoria_id='{$this->getIdcategory()}',"
             . "descripcion='{$this->getDescripcion()}',"

@@ -1,7 +1,7 @@
 <?php if (isset($_SESSION['delete']) && $_SESSION['delete'] == 'success'): ?>
     <?= Utilities::alert('msj_succes()'); ?>
 <?php elseif (isset($_SESSION['delete']) && $_SESSION['delete'] == 'failed'): ?>
-    <?= Utilities::alert('msj_missed()'); ?>
+    <?= Utilities::alert('msj_delete()'); ?>
 <?php endif; ?>
 <div class="container clearfix">
 

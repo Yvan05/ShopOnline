@@ -62,24 +62,25 @@ class user_controller
     public function delete()
     {
         Utilities::isAdmin();
-
         if (isset($_GET['id'])) {
             $id = isset($_GET['id']) ? $_GET['id'] : false;
             $usuario = new user();
             $usuario->setId($id);
             $delete = $usuario->delete();
-            if ($usuario) {
+            if ($delete) {
                 $alert = $_SESSION['delete'] = "success";
             } else {
-                //fallido al registrar
+                //fallido al eliminar
                 $alert = $_SESSION['delete'] = "failed";
             }
         } else {
             $alert = $_SESSION['delete'] = "failed";
         }
+       
         header('Location:' . base_url . 'user/gestion');
         ob_end_flush();
     }
+
 
     public function save()
     {

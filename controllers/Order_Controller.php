@@ -3,9 +3,11 @@
 require_once 'models/order.php';
 require_once 'models/payment.php';
 
-class order_Controller {
+class order_Controller
+{
 
-    public function done() {
+    public function done()
+    {
 
 
 
@@ -20,8 +22,30 @@ class order_Controller {
             require_once 'views/order/done.php';
         }
     }
+    public function delete()
+    {
+        Utilities::isAdmin();
+        if (isset($_GET['id'])) {
+            $id = isset($_GET['id']) ? $_GET['id'] : false;
+            $order = new order();
+            $order->setId($id);
+            $delete = $order->delete();
+            if ($delete) {
+                $alert = $_SESSION['delete'] = "success";
+            } else {
+                //fallido al eliminar
+                $alert = $_SESSION['delete'] = "failed";
+            }
+        } else {
+            $alert = $_SESSION['delete'] = "failed";
+        }
 
-    public function myorder() {
+        header('Location:' . base_url . 'order/gestion');
+        ob_end_flush();
+    }
+
+    public function myorder()
+    {
 
         Utilities::isIdentity();
         $usuario_id = $_SESSION['identity']->id; //es un objeto
@@ -32,19 +56,18 @@ class order_Controller {
         require_once 'views/order/myorder.php';
     }
 
-    public function gestion() {
+
+    public function gestion()
+    {
         //renderizar vista
         Utilities::isAdmin();
-
-
         $order = new order();
         $orders = $order->getALL();
-
-
         require_once 'views/order/gestion.php';
     }
 
-    public function add() {
+    public function add()
+    {
 
         if (isset($_SESSION['identity']) && isset($_POST)) {
             $usuario_id = $_SESSION['identity']->id;
@@ -72,21 +95,21 @@ class order_Controller {
                 $pais_validate = false;
                 $errores['pais'] = 'El campo no puede estar vacio';
             }
-//VALIDANDO CAMPO ESTADO
+            //VALIDANDO CAMPO ESTADO
             if (!empty($estado)) {
                 $estado_validate = true;
             } else {
                 $estado_validate = false;
                 $errores['estado'] = 'El campo no puede estar vacio';
             }
-//VALIDANDO CAMPO MUNICIPIO
+            //VALIDANDO CAMPO MUNICIPIO
             if (!empty($municipio)) {
                 $municipio_validate = true;
             } else {
                 $municipio_validate = false;
                 $errores['municipio'] = 'El campo no puede estar vacio';
             }
-//VALIDANDO CAMPO DIREECION
+            //VALIDANDO CAMPO DIREECION
             if (!empty($direccion) && !is_numeric($direccion)) {
                 $direccion_validate = true;
             } else {
@@ -142,7 +165,8 @@ class order_Controller {
         //header("Location:" . base_url.'order/done');
     }
 
-    public function edit() {
+    public function edit()
+    {
         Utilities::isAdmin();
         if (isset($_GET['id']) && isset($_POST['status'])) {
             $id = $_GET['id'];
@@ -168,16 +192,17 @@ class order_Controller {
         }
     }
 
-    public function confirmado() {
- Utilities::datos_order_pdf('views/order/confirmado.php');
-        
+    public function confirmado()
+    {
+        Utilities::datos_order_pdf('views/order/confirmado.php');
+
     }
 
-    public function factura() {
-       
+    public function factura()
+    {
+
         Utilities::datos_order_pdf('views/fpdf/INVOICE-main/invoice.php');
     }
 
 }
-
 ?>
