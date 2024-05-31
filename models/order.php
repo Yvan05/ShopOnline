@@ -135,7 +135,7 @@ class order
     {
         $query = "SELECT p.*,u.email FROM pedidos p,usuarios u where u.id=p.usuario_id ";
         $product = $this->db->query($query);
-        
+
         return $product;
     }
     public function delete()
@@ -151,7 +151,7 @@ class order
                 $result = true;
             } else {
                 $result = false;
-                
+
             }
 
 
@@ -218,37 +218,35 @@ class order
 
         return $pay->fetch_object();
     }
-    public function stockUpdate()
+    public function stockUpdate($carrito)
     {
-        $result = false;
-        $carrito = $_SESSION['car'];
-        for ($i = 0; $i < count($_SESSION['car']); $i++) {
+     
+     
+       for ($i = 0; $i < count($carrito); $i++) {
             $sql = "SELECT nombre,stock FROM productos WHERE id={$carrito[$i]['producto']->id} AND stock >={$carrito[$i]['cantidad']};";
             $producto = $this->db->query($sql);
 
             if (mysqli_num_rows($producto) == 0) {
                 $_SESSION['stock'] = 'nohay';
             } else {
-                $stock = $_SESSION['car'][$i]['producto']->stock;
-                $cantidad = $_SESSION['car'][$i]['cantidad'];
+                $stock = $carrito[$i]['producto']->stock;
+                $cantidad = $carrito[$i]['cantidad'];
                 $newstock = $stock - $cantidad;
                 $sql2 = "UPDATE productos SET stock={$newstock}  WHERE id={$carrito[$i]['producto']->id};";
                 $update = $this->db->query($sql2);
                 //actualizando la sesion del carrito stock
-                $_SESSION['car'][$i]['producto']->stock = $newstock;
+                $carrito[$i]['producto']->stock = $newstock;
                 //actulizando la sesuin del carrito cantidad
-                unset($_SESSION['car']);
-                /* if($newstock === 0){
-                     unset($_SESSION['car'][$i]);
-                 }else{
-                    $_SESSION['car'][$i]['cantidad']=1; 
-                 }*/
-
+                
+            
 
             }
         }
-        if (isset($producto) && $producto && isset($producto) && $update) {
+        
+      
+       if ($producto && $update) {
             $result = true;
+            
         } else {
             $result = false;
         }
@@ -278,7 +276,7 @@ class order
     }
     public function save()
     {
-    //hacemos la consulta
+        //hacemos la consulta
         $sql = "INSERT INTO pedidos VALUES("
             . "NULL,"
             . "'{$this->getUsuario_id()}',"

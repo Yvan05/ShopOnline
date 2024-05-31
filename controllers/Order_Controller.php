@@ -145,8 +145,16 @@ class order_Controller
                 if ($save_order && $save_orderline && $payment_save) {
 
                     //cambiar el stock
+                    $carrito = $_SESSION['car'];
+                    $update=$order->stockUpdate($carrito);
+                    if($update){
+                        unset($_SESSION['car']);
+                    }else{
+                        echo"error";
+                    }
+                    
                     $alert = $_SESSION['register'] = "success";
-                    $order->stockUpdate();
+                   
                     header("Location:" . base_url . 'order/confirmado');
                 } else {
                     $alert = $_SESSION['register'] = "failed";

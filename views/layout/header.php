@@ -25,7 +25,7 @@
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
        <script type="text/javascript" src="<?=base_url?>assets/js/sd.js?1.6" media="all"></script>
        <script  type="text/javascript" src="<?= base_url ?>assets/js/validate.js" media="all"></script>
-       <script  type="text/javascript" src="<?= base_url ?>assets/js/table.js" media="all"></script> 
+    
        <script  type="text/javascript" src="<?= base_url ?>assets/js/api_estados.js" media="all"></script>  
        <script src="https://www.paypal.com/sdk/js?client-id=AWGdJAeiv_LLUkbHXoOEvhSZIcxK3oYLvsTIGmbdELsPyDqVznxsyegjDtndKBT3EAZ-XbkaiQuN4N45&currency=MXN"></script>  
      
